@@ -1,0 +1,17 @@
+name: dropdown_banner
+description: A new Flutter package project.
+version: 0.0.1
+homepage: https://github.com/flyrboy96
+author: Bruce Brookshire <bruce.t.brookshire@gmail.com>
+
+environment:
+  sdk: ">=2.3.0 <3.0.0"
+
+dependencies:
+  dart_notification_center: ^0.2.0
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
