@@ -14,7 +14,7 @@ class _BannerInstanceObject {
   final Duration duration;
   final String text;
   final Color color;
-  final Color textColor;
+  final TextStyle textStyle;
 
   double bannerTop;
 
@@ -22,36 +22,39 @@ class _BannerInstanceObject {
 
   VoidCallback tapAction;
 
-  _BannerInstanceObject(
-      this.id, this.duration, this.text, this.color, this.textColor);
+  _BannerInstanceObject(this.id, this.duration, this.text, this.color,
+      this.textStyle, this.tapAction);
 }
 
 class DropdownBanner extends StatefulWidget {
-  final Widget child;
+  final WidgetBuilder builder;
+  final navigatorKey = GlobalKey<NavigatorState>();
 
-  DropdownBanner({@required this.child}) {
+  DropdownBanner({@required this.builder}) {
     DartNotificationCenter.registerChannel(channel: _BANNERCHANNEL);
   }
 
-  static int idCounter = 0;
+  static int _idCounter = 0;
 
   static showBanner({
     @required String text,
     Duration duration,
     Color color = Colors.white,
-    Color textColor = Colors.black,
+    TextStyle textStyle,
+    VoidCallback tapCallback,
   }) {
     DartNotificationCenter.post(
       channel: _BANNERCHANNEL,
       options: _BannerInstanceObject(
-        idCounter + 1,
+        _idCounter + 1,
         duration ?? Duration(seconds: 3),
         text,
         color,
-        textColor,
+        textStyle,
+        tapCallback,
       ),
     );
-    ++idCounter;
+    ++_idCounter;
   }
 
   @override
@@ -106,7 +109,7 @@ class _DropdownBannerState extends State<DropdownBanner> {
     });
 
     Timer(
-      Duration(milliseconds: 10),
+      Duration(milliseconds: 20),
       () => setState(() => banner.bannerTop = 0),
     );
 
@@ -122,7 +125,7 @@ class _DropdownBannerState extends State<DropdownBanner> {
 
   void removeAfterAnimation(int id) {
     Timer(
-      Duration(milliseconds: 220),
+      Duration(milliseconds: 200),
       () => setState(() => bannerHolder.remove(id)),
     );
   }
@@ -130,7 +133,7 @@ class _DropdownBannerState extends State<DropdownBanner> {
   void checkDimsIfUnset() {
     if (deviceWidth == null) {
       deviceWidth = MediaQuery.of(context).size.width;
-      bannerHeight = MediaQuery.of(context).padding.top + 44;
+      bannerHeight = MediaQuery.of(context).padding.top + 56;
       bannerTop = -bannerHeight;
     }
   }
@@ -145,7 +148,13 @@ class _DropdownBannerState extends State<DropdownBanner> {
       children: <Widget>[
         Align(
           alignment: Alignment.center,
-          child: widget.child,
+          child: Navigator(
+            key: widget.navigatorKey,
+            onGenerateRoute: (settings) => MaterialPageRoute(
+              settings: settings,
+              builder: widget.builder,
+            ),
+          ),
         ),
         ...banners
       ],
@@ -159,7 +168,7 @@ class _DropdownBannerState extends State<DropdownBanner> {
       left: 0,
       top: inst.bannerTop,
       height: bannerHeight,
-      duration: Duration(milliseconds: 200),
+      duration: Duration(milliseconds: 180),
       child: GestureDetector(
         onTapUp: (details) => setState(() {
           inst.bannerTop = -bannerHeight;
@@ -168,7 +177,7 @@ class _DropdownBannerState extends State<DropdownBanner> {
           if (inst.tapAction != null) inst.tapAction();
 
           //Cancel delayed timer
-          inst.timer.cancel();
+          inst.timer?.cancel();
           inst.timer = null;
 
           //Remove as soon as animation is done
@@ -176,6 +185,7 @@ class _DropdownBannerState extends State<DropdownBanner> {
         }),
         child: Material(
           child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(color: inst.color, boxShadow: [
               BoxShadow(
                 color: Color(0x1F000000),
@@ -186,7 +196,15 @@ class _DropdownBannerState extends State<DropdownBanner> {
             alignment: Alignment.center,
             child: SafeArea(
               bottom: false,
-              child: Text(inst.text),
+              child: Text(
+                inst.text,
+                style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: FontWeight.normal,
+                        inherit: true)
+                    .merge(inst.textStyle),
+              ),
             ),
           ),
         ),
