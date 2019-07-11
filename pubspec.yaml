@@ -5,7 +5,7 @@ homepage: https://github.com/flyrboy96
 author: Bruce Brookshire <bruce.t.brookshire@gmail.com>
 
 environment:
-  sdk: ">=2.3.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   dart_notification_center: ^0.2.0
