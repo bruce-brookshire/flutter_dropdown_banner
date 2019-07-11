@@ -17,3 +17,7 @@
 ## [1.0.1] - 7/11/2019
 
 * Added shield and shortened description
+
+## [1.0.1+1] - 7/11/2019
+
+* Upgraded package dependency version

@@ -1,6 +1,6 @@
 name: dropdown_banner
 description: Manages the creation and animation of banner ui elements that are useful for displaying warnings and updates to users.
-version: 1.0.1
+version: 1.0.1+1
 homepage: https://github.com/flyrboy96/flutter_dropdown_banner
 author: Bruce Brookshire <bruce.t.brookshire@gmail.com>
 
@@ -8,7 +8,7 @@ environment:
   sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
-  dart_notification_center: ^0.2.0
+  dart_notification_center: ^1.0.0+1
   flutter:
     sdk: flutter
 
