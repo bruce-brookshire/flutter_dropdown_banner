@@ -2,6 +2,8 @@
 DropdownBanner manages the creation and animation of banner ui elements
 that are useful for displaying warnings and updates to users. It is simple to use and effective at event communication.
 
+![](demonstration.gif)
+
 ## Getting Started
 Using the dropdown banner is quite intuitive and simple. Below is a quick example of how to use it!
 

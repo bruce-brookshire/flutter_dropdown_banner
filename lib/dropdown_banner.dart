@@ -54,7 +54,7 @@ class DropdownBanner extends StatefulWidget {
   static int _idCounter = 0;
 
   ///Display a banner with the desired [text] and [textStyle] on a [color] background
-  ///for the [duration] specified. If the banner is tapped and [tapCallback] != null, 
+  ///for the [duration] specified. If the banner is tapped and [tapCallback] != null,
   ///the callback will be executed and the banner dismissed.
   static showBanner({
     @required String text,
