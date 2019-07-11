@@ -1,3 +1,5 @@
+![Pub](https://img.shields.io/pub/v/dropdown_banner.svg?style=popout)
+
 # dropdown_banner
 DropdownBanner manages the creation and animation of banner ui elements
 that are useful for displaying warnings and updates to users. It is simple to use and effective at event communication.

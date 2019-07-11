@@ -13,3 +13,7 @@
 * Demonstration GIF
 * Flutter formatter
 * Project description
+
+## [1.0.1] - 7/11/2019
+
+* Added shield and shortened description

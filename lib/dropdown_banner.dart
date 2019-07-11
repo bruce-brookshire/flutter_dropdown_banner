@@ -5,45 +5,45 @@ import 'dart:async';
 import 'package:dart_notification_center/dart_notification_center.dart';
 import 'package:flutter/material.dart';
 
-///Channel name to communicate menu updates on
+/// Channel name to communicate menu updates on
 const String _BANNERCHANNEL = 'createDropdownBanner';
 
-///Container to track various aspects of the appearance and life of a dropdown banner object
+/// Container to track various aspects of the appearance and life of a dropdown banner object
 class _BannerInstanceObject {
-  ///Identify unique state between rebuilds
+  /// Identify unique state between rebuilds
   final Key key = UniqueKey();
 
-  ///Unique id for referencing
+  /// Unique id for referencing
   final int id;
 
-  ///Length of time the banner stays visible for
+  /// Length of time the banner stays visible for
   final Duration duration;
 
-  ///Text to display in the banner
+  /// Text to display in the banner
   final String text;
 
-  ///Color of the banner
+  /// Color of the banner
   final Color color;
 
-  ///Style for the text displayed
+  /// Style for the text displayed
   final TextStyle textStyle;
-  //Position of the banner in the UI
+  /// Position of the banner in the UI
   double bannerTop;
 
-  ///Timers associated with dismissing the banner
+  /// Timers associated with dismissing the banner
   Timer timer;
 
-  ///Action to perform on tap
+  /// Action to perform on tap
   VoidCallback tapAction;
 
   _BannerInstanceObject(this.id, this.duration, this.text, this.color,
       this.textStyle, this.tapAction);
 }
 
-///DropdownBanner manages the creation and animation of banner elements
-///that are useful for displaying warnings and updates to users.
+/// DropdownBanner manages the creation and animation of banner elements
+/// that are useful for displaying warnings and updates to users.
 class DropdownBanner extends StatefulWidget {
-  ///Builder in which to construct the app content that you are wrapping
+  /// Builder in which to construct the app content that you are wrapping
   final WidgetBuilder builder;
   final _navigatorKey = GlobalKey<NavigatorState>();
 
@@ -53,9 +53,9 @@ class DropdownBanner extends StatefulWidget {
 
   static int _idCounter = 0;
 
-  ///Display a banner with the desired [text] and [textStyle] on a [color] background
-  ///for the [duration] specified. If the banner is tapped and [tapCallback] != null,
-  ///the callback will be executed and the banner dismissed.
+  /// Display a banner with the desired [text] and [textStyle] on a [color] background
+  /// for the [duration] specified. If the banner is tapped and [tapCallback] != null,
+  /// the callback will be executed and the banner dismissed.
   static showBanner({
     @required String text,
     Duration duration,
@@ -193,14 +193,14 @@ class _DropdownBannerState extends State<DropdownBanner> {
         onTapUp: (details) => setState(() {
           inst.bannerTop = -bannerHeight;
 
-          //If there is a tap action, perform it
+          // If there is a tap action, perform it
           if (inst.tapAction != null) inst.tapAction();
 
-          //Cancel delayed timer
+          // Cancel delayed timer
           inst.timer?.cancel();
           inst.timer = null;
 
-          //Remove as soon as animation is done
+          // Remove as soon as animation is done
           removeAfterAnimation(inst.id);
         }),
         child: Material(

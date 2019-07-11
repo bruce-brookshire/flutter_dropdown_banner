@@ -1,6 +1,6 @@
 name: dropdown_banner
-description: DropdownBanner manages the creation and animation of banner ui elements that are useful for displaying warnings and updates to users. It is simple to use and effective at event communication.
-version: 1.0.0
+description: Manages the creation and animation of banner ui elements that are useful for displaying warnings and updates to users.
+version: 1.0.1
 homepage: https://github.com/flyrboy96/flutter_dropdown_banner
 author: Bruce Brookshire <bruce.t.brookshire@gmail.com>
 
