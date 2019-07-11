@@ -15,18 +15,19 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     ...
     return MaterialApp(
-        builder: (context, widget) => Theme(data: ThemeData(...), child: widget),
-        theme: currentTheme,
-        home: DropdownBanner(builder: (context) => currentWidget),
+        ...
+        home: DropdownBanner(
+          builder: (context) => Scaffold(...),
+        ),
     );
   }
 }
 ```
 
-#### Generate a banner event within a widget
+#### Generate a banner event
 ```dart
 import 'packages:dropdown_banner/dropdown_banner.dart';
-
+...
 class SomeClass {
   ...
   void doSomethingThenFail() {
@@ -36,7 +37,6 @@ class SomeClass {
       textStyle: TextStyle(color: Colors.white),
     );
   }
-  ...
 }
 ```
 
