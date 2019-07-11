@@ -1,15 +1,47 @@
 # dropdown_banner
-
-A new Flutter package project.
+DropdownBanner manages the creation and animation of banner ui elements
+that are useful for displaying warnings and updates to users. It is simple to use and effective at event communication.
 
 ## Getting Started
+Using the dropdown banner is quite intuitive and simple. Below is a quick example of how to use it!
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+#### In your main.dart when creating the app
+```dart
+import 'packages:dropdown_banner/dropdown_banner.dart';
+...
+class MainApp extends StatelessWidget {
+  ...
+  @override
+  Widget build(BuildContext context) {
+    ...
+    return MaterialApp(
+        builder: (context, widget) => Theme(data: ThemeData(...), child: widget),
+        theme: currentTheme,
+        home: DropdownBanner(builder: (context) => currentWidget),
+    );
+  }
+}
+```
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
-# flutter_dropdown_banner
+#### Generate a banner event within a widget
+```dart
+import 'packages:dropdown_banner/dropdown_banner.dart';
+
+class SomeClass {
+  ...
+  void doSomethingThenFail() {
+    DropdownBanner.showBanner(
+      text: 'Failed to complete network request',
+      color: SKColors.warning_red,
+      textStyle: TextStyle(color: Colors.white),
+    );
+  }
+  ...
+}
+```
+
+## Planned improvements
+If this package gets any traction, I plan to add support for images, custom widgets, animation duration.. etc. If you have any ideas for making this package more applicable, just open an issue!
+
+## Other info
+This package uses another of my packages, [dart_notification_center](https://pub.dev/packages/dart_notification_center), for implementing the observer pattern. This is what makes using the banner so simple! Check it out if you find a need for it.
