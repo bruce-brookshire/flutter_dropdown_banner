@@ -7,7 +7,7 @@
 
 * Updated SDK version to enable pub parsing
 
-## [0.1.2] - 7/11/2019
+## [1.0.0] - 7/11/2019
 
 * Example project
 * Demonstration GIF
