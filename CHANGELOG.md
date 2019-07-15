@@ -21,3 +21,7 @@
 ## [1.0.1+1] - 7/11/2019
 
 * Upgraded package dependency version
+
+## [1.0.2] - 7/15/2019
+
+* Enabled navigator key override to prevent hot reloading from resetting
