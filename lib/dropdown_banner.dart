@@ -27,6 +27,7 @@ class _BannerInstanceObject {
 
   /// Style for the text displayed
   final TextStyle textStyle;
+
   /// Position of the banner in the UI
   double bannerTop;
 
@@ -45,9 +46,12 @@ class _BannerInstanceObject {
 class DropdownBanner extends StatefulWidget {
   /// Builder in which to construct the app content that you are wrapping
   final WidgetBuilder builder;
-  final _navigatorKey = GlobalKey<NavigatorState>();
+  final _navigatorKey;
 
-  DropdownBanner({@required this.builder}) {
+  DropdownBanner({
+    @required this.builder,
+    Key key,
+  }) : _navigatorKey = key ?? GlobalKey<NavigatorState>() {
     DartNotificationCenter.registerChannel(channel: _BANNERCHANNEL);
   }
 
