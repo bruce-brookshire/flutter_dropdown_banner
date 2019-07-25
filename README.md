@@ -17,11 +17,13 @@ class MainApp extends StatelessWidget {
   ...
   @override
   Widget build(BuildContext context) {
+    final navigatorKey = GlobalKey<NavigatorState>();
     ...
     return MaterialApp(
         ...
         home: DropdownBanner(
-          builder: (context) => Scaffold(...),
+          child: Scaffold(...),
+          navigatorKey: navigatorKey,
         ),
     );
   }

@@ -17,7 +17,7 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
-  dropdown_banner: ^0.1.1
+  dropdown_banner: ^1.1.1
   flutter:
     sdk: flutter
 

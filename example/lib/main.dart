@@ -4,6 +4,8 @@ import 'package:dropdown_banner/dropdown_banner.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  final navigatorKey = GlobalKey<NavigatorState>();
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,10 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blueGrey,
       ),
-      home: DropdownBanner(builder: (context) => HomeWidget()),
+      home: DropdownBanner(
+        child: HomeWidget(),
+        navigatorKey: navigatorKey,
+      ),
     );
   }
 }

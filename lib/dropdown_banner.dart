@@ -46,8 +46,9 @@ class _BannerInstanceObject {
 class DropdownBanner extends StatefulWidget {
   /// Builder in which to construct the app content that you are wrapping
   final Widget child;
+  final GlobalKey<NavigatorState> navigatorKey;
 
-  DropdownBanner({@required this.child}) {
+  DropdownBanner({@required this.child, @required this.navigatorKey}) {
     DartNotificationCenter.registerChannel(channel: _BANNERCHANNEL);
   }
 
@@ -169,7 +170,7 @@ class _DropdownBannerState extends State<DropdownBanner> {
         Align(
           alignment: Alignment.center,
           child: Navigator(
-            key: GlobalKey<NavigatorState>(),
+            key: widget.navigatorKey,
             onGenerateRoute: (settings) => MaterialPageRoute(
               settings: settings,
               builder: (_) => widget.child,
