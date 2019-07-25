@@ -25,3 +25,7 @@
 ## [1.0.2] - 7/15/2019
 
 * Enabled navigator key override to prevent hot reloading from resetting
+
+## [1.1.0] - 7/25/2019
+
+* Fixes the issue where child is rebuilt everytime navigator is used or hot reload occurs
