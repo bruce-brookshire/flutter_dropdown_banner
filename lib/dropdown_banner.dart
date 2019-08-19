@@ -84,20 +84,28 @@ class DropdownBanner extends StatefulWidget {
 
 class _DropdownBannerState extends State<DropdownBanner> {
   double deviceWidth;
-  double bannerHeight;
-  double bannerTop;
+  double bannerHeight = 64;
 
   LinkedHashMap<int, _BannerInstanceObject> bannerHolder = LinkedHashMap();
 
   @override
   void initState() {
+    super.initState();
+
     DartNotificationCenter.subscribe(
       channel: _BANNERCHANNEL,
       observer: this,
       onNotification: createBanner,
     );
 
-    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(setSize);
+  }
+
+  void setSize(duration) {
+    setState(() {
+      deviceWidth = MediaQuery.of(context).size.width;
+      bannerHeight = MediaQuery.of(context).padding.top + 56;
+    });
   }
 
   @override
@@ -113,7 +121,10 @@ class _DropdownBannerState extends State<DropdownBanner> {
   }
 
   void createBanner(dynamic bannerInst) {
-    checkDimsIfUnset();
+    if (deviceWidth == null) {
+      Timer(Duration(milliseconds: 100), () => createBanner(bannerInst));
+      return;
+    }
 
     assert(
       bannerInst is _BannerInstanceObject,
@@ -151,18 +162,8 @@ class _DropdownBannerState extends State<DropdownBanner> {
     );
   }
 
-  void checkDimsIfUnset() {
-    if (deviceWidth == null) {
-      deviceWidth = MediaQuery.of(context).size.width;
-      bannerHeight = MediaQuery.of(context).padding.top + 56;
-      bannerTop = -bannerHeight;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    checkDimsIfUnset();
-
     List<Widget> banners = bannerHolder.values.map(createBannerWidget).toList();
 
     return Stack(

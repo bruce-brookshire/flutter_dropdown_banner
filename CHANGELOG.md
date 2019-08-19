@@ -1,3 +1,7 @@
+## [1.2.0] - 8/19/2019
+
+* Change when library fetches height information
+
 ## [1.1.1] - 7/25/2019
 
 * Fixes another issue with the navigator state resetting after every hot reload. should be good to go now. Updated the example to represent new package architecture.
