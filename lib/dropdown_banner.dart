@@ -1,6 +1,5 @@
 library dropdown_banner;
 
-import 'dart:collection';
 import 'dart:async';
 import 'package:dart_notification_center/dart_notification_center.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +20,8 @@ class DropdownBanner extends StatefulWidget {
     DartNotificationCenter.registerChannel(channel: _BANNERCHANNEL);
   }
 
-  static int _idCounter = 0;
+  /// Used to track banners uniquely
+  static int _idCounter = 1;
 
   /// Display a banner with the desired [text] and [textStyle] on a [color] background
   /// for the [duration] specified. If the banner is tapped and [tapCallback] != null,
@@ -29,21 +29,23 @@ class DropdownBanner extends StatefulWidget {
   static showBanner({
     @required String text,
     Duration duration,
-    Color color = Colors.white,
+    Color color,
     TextStyle textStyle,
     VoidCallback tapCallback,
   }) {
     DartNotificationCenter.post(
       channel: _BANNERCHANNEL,
       options: {
-        'id': _idCounter + 1,
+        'id': _idCounter,
         'duration': duration ?? Duration(seconds: 3),
         'text': text,
-        'color': color,
+        'color': color ?? Colors.white,
         'textStyle': textStyle,
         'tapCallback': tapCallback,
       },
     );
+
+    // Increment counter for next use
     ++_idCounter;
   }
 
@@ -52,12 +54,13 @@ class DropdownBanner extends StatefulWidget {
 }
 
 class _DropdownBannerState extends State<DropdownBanner> {
-  List<_BannerInstanceObject> banners = [];
+  List<_BannerInstance> banners = [];
 
   @override
   void initState() {
     super.initState();
 
+    // Get notified when a Banner is requested to be created
     DartNotificationCenter.subscribe(
       channel: _BANNERCHANNEL,
       observer: this,
@@ -75,27 +78,30 @@ class _DropdownBannerState extends State<DropdownBanner> {
   }
 
   void createBanner(dynamic bannerDetails) {
+    // Ensure that the call to create the banner was from within the Library
     assert(
       bannerDetails is Map<String, dynamic> &&
-          bannerDetails['id'] is int &&
-          bannerDetails['duration'] is Duration &&
-          bannerDetails['color'] is Color,
-      'Do not post to $_BANNERCHANNEL using DartNotificationCenter, as this is reserved for internal use for DropdownBanner to work properly',
+          bannerDetails['id'] is int,
+      'Do not post to $_BANNERCHANNEL using DartNotificationCenter, as this is reserved for internal use for DropdownBanner to work properly.',
     );
 
-    final _BannerInstanceObject banner = _BannerInstanceObject(
-      bannerDetails['id'],
-      bannerDetails['duration'],
-      bannerDetails['text'],
-      bannerDetails['color'],
-      bannerDetails['textStyle'],
-      bannerDetails['tapCallback'],
-      onAnimationCompletion,
+    // Add banner to banners, and display
+    setState(
+      () => banners.add(
+        _BannerInstance(
+          bannerDetails['id'],
+          bannerDetails['duration'],
+          bannerDetails['text'],
+          bannerDetails['color'],
+          bannerDetails['textStyle'],
+          bannerDetails['tapCallback'],
+          onAnimationCompletion,
+        ),
+      ),
     );
-
-    setState(() => banners.add(banner));
   }
 
+  /// Callback for removing banner from banner queue
   void onAnimationCompletion(int id) =>
       setState(() => banners.removeWhere((b) => b.id == id));
 
@@ -118,7 +124,7 @@ class _DropdownBannerState extends State<DropdownBanner> {
 }
 
 /// Container to track various aspects of the appearance and life of a dropdown banner object
-class _BannerInstanceObject extends StatefulWidget {
+class _BannerInstance extends StatefulWidget {
   /// Identify unique state between rebuilds
   final Key key = UniqueKey();
 
@@ -143,46 +149,50 @@ class _BannerInstanceObject extends StatefulWidget {
   /// Callback to remove from parent render tree
   final _IntCallback onCompletion;
 
-  _BannerInstanceObject(this.id, this.duration, this.text, this.color,
-      this.textStyle, this.tapAction, this.onCompletion);
+  _BannerInstance(this.id, this.duration, this.text, this.color, this.textStyle,
+      this.tapAction, this.onCompletion);
 
   @override
-  createState() => _BannerInstanceObjectState();
+  createState() => _BannerInstanceState();
 }
 
-class _BannerInstanceObjectState extends State<_BannerInstanceObject> {
+class _BannerInstanceState extends State<_BannerInstance> {
   /// Whether the banner is being presented or removed
   bool isActive = true;
+
+  /// The timer for removing banner from screen (if not tapped first)
   Timer timer;
+
+  /// The height of the banner being presented (for animating it in/out)
   double bannerHeight;
 
   @override
   void initState() {
     super.initState();
 
+    // Create the timer for dismissing banner after specified duration has passed
     timer = Timer(
       widget.duration,
       () {
+        // Only dismiss if we have not already dismissed
         if (isActive) dismissAndDispose();
       },
     );
 
-    WidgetsBinding.instance.addPostFrameCallback((duration) {
-      final deviceHeight = context.size.height;
-
-      print(deviceHeight);
-      setState(() => this.bannerHeight = deviceHeight);
-    });
+    // Get size of banner after first render pass
+    WidgetsBinding.instance.addPostFrameCallback(
+        (duration) => setState(() => this.bannerHeight = context.size.height));
   }
 
-  void dismissAndDispose([_]) {
-    print('retiring ${widget.id}');
+  void dismissAndDispose([TapUpDetails details]) {
     // Cancel delayed timer
     timer.cancel();
 
+    // Dismiss banner
     setState(() => isActive = false);
 
-    if (widget.tapAction != null) widget.tapAction();
+    // Only call tapAction if it exists, and if banner was dismissed from a tap action
+    if (widget.tapAction != null && details != null) widget.tapAction();
 
     // Remove as soon as animation is done
     Timer(
@@ -193,7 +203,8 @@ class _BannerInstanceObjectState extends State<_BannerInstanceObject> {
 
   @override
   build(BuildContext context) {
-    final top = bannerHeight == null ? -120.0 : (isActive ? 0.0 : -bannerHeight);
+    final top =
+        bannerHeight == null ? -120.0 : (isActive ? 0.0 : -bannerHeight);
 
     return AnimatedPositioned(
       key: widget.key,
