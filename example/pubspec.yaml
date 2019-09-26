@@ -17,8 +17,7 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
-  dropdown_banner:
-    path: /Users/brucebrookshire/Desktop/Fun projects!/dropdown_banner
+  dropdown_banner: ^1.3.0
   flutter:
     sdk: flutter
 
