@@ -1,3 +1,9 @@
+## [1.3.0] - 9/26/2019
+
+* Dynamically sizeable banners
+* Improved library structure
+* Maintenance and documentation
+
 ## [1.2.0] - 8/19/2019
 
 * Change when library fetches height information

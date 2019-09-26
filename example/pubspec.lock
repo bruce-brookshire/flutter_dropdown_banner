@@ -49,7 +49,7 @@ packages:
       path: "/Users/brucebrookshire/Desktop/Fun projects!/dropdown_banner"
       relative: false
     source: path
-    version: "1.2.0"
+    version: "1.3.0"
   flutter:
     dependency: "direct main"
     description: flutter
