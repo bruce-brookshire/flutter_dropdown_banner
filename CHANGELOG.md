@@ -1,3 +1,7 @@
+## [1.4.0] - 10/2/2019
+
+* Swipe up to dismiss banner
+
 ## [1.3.0] - 9/26/2019
 
 * Dynamically sizeable banners

@@ -80,8 +80,7 @@ class _DropdownBannerState extends State<DropdownBanner> {
   void createBanner(dynamic bannerDetails) {
     // Ensure that the call to create the banner was from within the Library
     assert(
-      bannerDetails is Map<String, dynamic> &&
-          bannerDetails['id'] is int,
+      bannerDetails is Map<String, dynamic> && bannerDetails['id'] is int,
       'Do not post to $_BANNERCHANNEL using DartNotificationCenter, as this is reserved for internal use for DropdownBanner to work properly.',
     );
 
@@ -214,6 +213,9 @@ class _BannerInstanceState extends State<_BannerInstance> {
       duration: Duration(milliseconds: 180),
       child: GestureDetector(
         onTapUp: dismissAndDispose,
+        onVerticalDragEnd: (details) {
+          if (details.primaryVelocity < 0) dismissAndDispose();
+        },
         child: Material(
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),

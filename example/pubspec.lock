@@ -46,9 +46,9 @@ packages:
   dropdown_banner:
     dependency: "direct main"
     description:
-      path: "/Users/brucebrookshire/Desktop/Fun projects!/dropdown_banner"
-      relative: false
-    source: path
+      name: dropdown_banner
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "1.3.0"
   flutter:
     dependency: "direct main"
