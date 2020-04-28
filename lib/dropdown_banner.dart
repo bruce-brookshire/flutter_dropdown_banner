@@ -105,21 +105,24 @@ class _DropdownBannerState extends State<DropdownBanner> {
       setState(() => banners.removeWhere((b) => b.id == id));
 
   @override
-  Widget build(BuildContext context) => Stack(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.center,
-            child: Navigator(
-              key: widget.navigatorKey,
-              onGenerateRoute: (settings) => MaterialPageRoute(
-                settings: settings,
-                builder: (_) => widget.child,
-              ),
+  Widget build(BuildContext context) => SafeArea(
+    top: true,
+    child: Stack(
+      children: <Widget>[
+        Align(
+          alignment: Alignment.center,
+          child: Navigator(
+            key: widget.navigatorKey,
+            onGenerateRoute: (settings) => MaterialPageRoute(
+              settings: settings,
+              builder: (_) => widget.child,
             ),
           ),
-          ...banners
-        ],
-      );
+        ),
+        ...banners
+      ],
+    )
+  );
 }
 
 /// Container to track various aspects of the appearance and life of a dropdown banner object
@@ -205,42 +208,39 @@ class _BannerInstanceState extends State<_BannerInstance> {
     final top =
         bannerHeight == null ? -120.0 : (isActive ? 0.0 : -bannerHeight);
 
-    return SafeArea( 
-      top: true,
-      child: AnimatedPositioned(
-        key: widget.key,
-        left: 0,
-        right: 0,
-        top: top,
-        duration: Duration(milliseconds: 180),
-        child: GestureDetector(
-          onTapUp: dismissAndDispose,
-          onVerticalDragEnd: (details) {
-            if (details.primaryVelocity < 0) dismissAndDispose();
-          },
-          child: Material(
-            child: Container(
-              height: 56,
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              decoration: BoxDecoration(color: widget.color, boxShadow: [
-                BoxShadow(
-                  color: Color(0x1F000000),
-                  offset: Offset(0, 1.75),
-                  blurRadius: 3.5,
-                )
-              ]),
-              alignment: Alignment.center,
-              child: SafeArea(
-                bottom: false,
-                child: Text(
-                  widget.text,
-                  style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
-                          inherit: true)
-                      .merge(widget.textStyle),
-                ),
+    return AnimatedPositioned(
+      key: widget.key,
+      left: 0,
+      right: 0,
+      top: top,
+      duration: Duration(milliseconds: 180),
+      child: GestureDetector(
+        onTapUp: dismissAndDispose,
+        onVerticalDragEnd: (details) {
+          if (details.primaryVelocity < 0) dismissAndDispose();
+        },
+        child: Material(
+          child: Container(
+            height: 56,
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(color: widget.color, boxShadow: [
+              BoxShadow(
+                color: Color(0x1F000000),
+                offset: Offset(0, 1.75),
+                blurRadius: 3.5,
+              )
+            ]),
+            alignment: Alignment.center,
+            child: SafeArea(
+              bottom: false,
+              child: Text(
+                widget.text,
+                style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: FontWeight.normal,
+                        inherit: true)
+                    .merge(widget.textStyle),
               ),
             ),
           ),
