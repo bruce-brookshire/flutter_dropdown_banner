@@ -205,40 +205,42 @@ class _BannerInstanceState extends State<_BannerInstance> {
     final top =
         bannerHeight == null ? -120.0 : (isActive ? 0.0 : -bannerHeight);
 
-    return AnimatedPositioned(
-      key: widget.key,
-      left: 0,
-      right: 0,
-      top: top,
-      duration: Duration(milliseconds: 180),
-      child: GestureDetector(
-        onTapUp: dismissAndDispose,
-        onVerticalDragEnd: (details) {
-          if (details.primaryVelocity < 0) dismissAndDispose();
-        },
-        child: Material(
-          child: Container(
-            height: 56,
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            decoration: BoxDecoration(color: widget.color, boxShadow: [
-              BoxShadow(
-                color: Color(0x1F000000),
-                offset: Offset(0, 1.75),
-                blurRadius: 3.5,
-              )
-            ]),
-            alignment: Alignment.center,
-            child: SafeArea(
-              bottom: false,
-              top: true,
-              child: Text(
-                widget.text,
-                style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.normal,
-                        inherit: true)
-                    .merge(widget.textStyle),
+    return SafeArea( 
+      top: true,
+      child: AnimatedPositioned(
+        key: widget.key,
+        left: 0,
+        right: 0,
+        top: top,
+        duration: Duration(milliseconds: 180),
+        child: GestureDetector(
+          onTapUp: dismissAndDispose,
+          onVerticalDragEnd: (details) {
+            if (details.primaryVelocity < 0) dismissAndDispose();
+          },
+          child: Material(
+            child: Container(
+              height: 56,
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(color: widget.color, boxShadow: [
+                BoxShadow(
+                  color: Color(0x1F000000),
+                  offset: Offset(0, 1.75),
+                  blurRadius: 3.5,
+                )
+              ]),
+              alignment: Alignment.center,
+              child: SafeArea(
+                bottom: false,
+                child: Text(
+                  widget.text,
+                  style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
+                          inherit: true)
+                      .merge(widget.textStyle),
+                ),
               ),
             ),
           ),
