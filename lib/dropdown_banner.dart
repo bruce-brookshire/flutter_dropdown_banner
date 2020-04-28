@@ -230,6 +230,7 @@ class _BannerInstanceState extends State<_BannerInstance> {
             alignment: Alignment.center,
             child: SafeArea(
               bottom: false,
+              top: true,
               child: Text(
                 widget.text,
                 style: TextStyle(
