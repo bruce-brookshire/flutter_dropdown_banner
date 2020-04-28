@@ -218,6 +218,7 @@ class _BannerInstanceState extends State<_BannerInstance> {
         },
         child: Material(
           child: Container(
+            height: 56,
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(color: widget.color, boxShadow: [
               BoxShadow(
