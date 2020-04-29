@@ -106,21 +106,27 @@ class _DropdownBannerState extends State<DropdownBanner> {
 
   @override
   Widget build(BuildContext context) => SafeArea(
-    top: true,
-    child: Stack(
-      children: <Widget>[
-        Align(
-          alignment: Alignment.center,
-          child: Navigator(
-            key: widget.navigatorKey,
-            onGenerateRoute: (settings) => MaterialPageRoute(
-              settings: settings,
-              builder: (_) => widget.child,
+    top: false,
+    bottom: false,
+    child: LayoutBuilder(
+      builder: (context, BoxConstraints constraints) {
+//        var safePadding = MediaQuery.of(context).size.height - constraints.maxHeight;
+        return Stack(
+          children: <Widget>[
+            Align(
+              alignment: Alignment.center,
+              child: Navigator(
+                key: widget.navigatorKey,
+                onGenerateRoute: (settings) => MaterialPageRoute(
+                  settings: settings,
+                  builder: (_) => widget.child,
+                ),
+              ),
             ),
-          ),
-        ),
-        ...banners
-      ],
+            ...banners
+          ],
+        );
+      }
     )
   );
 }
@@ -221,7 +227,7 @@ class _BannerInstanceState extends State<_BannerInstance> {
         },
         child: Material(
           child: Container(
-            height: 56,
+            height: MediaQuery.of(context).padding.top + 56,
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(color: widget.color, boxShadow: [
               BoxShadow(
