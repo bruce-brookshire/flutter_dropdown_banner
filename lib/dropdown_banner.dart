@@ -227,7 +227,7 @@ class _BannerInstanceState extends State<_BannerInstance> {
         },
         child: Material(
           child: Container(
-            height: MediaQuery.of(context).padding.top + 56,
+            height: MediaQuery.of(context).padding.top + 57,
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(color: widget.color, boxShadow: [
               BoxShadow(
