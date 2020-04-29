@@ -105,21 +105,30 @@ class _DropdownBannerState extends State<DropdownBanner> {
       setState(() => banners.removeWhere((b) => b.id == id));
 
   @override
-  Widget build(BuildContext context) => Stack(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.center,
-            child: Navigator(
-              key: widget.navigatorKey,
-              onGenerateRoute: (settings) => MaterialPageRoute(
-                settings: settings,
-                builder: (_) => widget.child,
+  Widget build(BuildContext context) => SafeArea(
+    top: false,
+    bottom: false,
+    child: LayoutBuilder(
+      builder: (context, BoxConstraints constraints) {
+//        var safePadding = MediaQuery.of(context).size.height - constraints.maxHeight;
+        return Stack(
+          children: <Widget>[
+            Align(
+              alignment: Alignment.center,
+              child: Navigator(
+                key: widget.navigatorKey,
+                onGenerateRoute: (settings) => MaterialPageRoute(
+                  settings: settings,
+                  builder: (_) => widget.child,
+                ),
               ),
             ),
-          ),
-          ...banners
-        ],
-      );
+            ...banners
+          ],
+        );
+      }
+    )
+  );
 }
 
 /// Container to track various aspects of the appearance and life of a dropdown banner object
@@ -218,6 +227,7 @@ class _BannerInstanceState extends State<_BannerInstance> {
         },
         child: Material(
           child: Container(
+            height: MediaQuery.of(context).padding.top + 57,
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(color: widget.color, boxShadow: [
               BoxShadow(
